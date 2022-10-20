@@ -38,4 +38,14 @@ export default {
     width: 100%;
     bottom: 0;
 }
+
+[app-bottom-bar]::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 1) 10%, rgba(255, 255, 255, 0.7483368347338936) 50%, rgba(255, 255, 255, 0) 100%);
+    top: -45px;
+}
 </style>

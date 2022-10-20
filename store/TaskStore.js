@@ -8,36 +8,34 @@ const TaskStore = ref({
     _id: '0',
     expanded: true
   }],
-  ShowCompletedTask: true
+  ShowCompletedTask: true,
 })
-
-
-
 
 // Task Option Store
 export const TaskOptionStore = ref({
   TaskOptionSheetOpen: false,
+  TaskExpanded: false,
+  isSyncing: false,
+
 })
+
+
 
 
 // Use Task Store
 export const useTaskStore = () => {
 
+  // Use Task List & Count
+  const AllTaskList = computed(() => TaskStore.value.AllTaskList)
+  const AllTaskCount = computed(() => TaskStore.value.AllTaskList.length)
+
   // Setter
   const SetAllTaskList = (task = {}) => {
     TaskStore.value.AllTaskList = task
   }
-  const SetSectionList = (section = {}) => {
-    TaskStore.value.AllSectionList = section
+  const AddToAllTaskList = (task = {}) => {
+    TaskStore.value.AllTaskList.push(task)
   }
-
-
-  // Use Task List & Count
-  const AllTaskList = computed(() => TaskStore.value.AllTaskList)
-
-  // Use Task Sections
-  const AllSectionList = computed(() => TaskStore.value.AllSectionList)
-
   // Edit Single Task In List
   const EditTaskInList = (taskid, task = {}) => {
 
@@ -49,9 +47,25 @@ export const useTaskStore = () => {
     })
     SetAllTaskList(editedTask)
   }
+  // Find Task From List
+  const FindTaskInList = (taskid) => {
+    return TaskStore.value.AllTaskList.filter(taskObj => taskObj._id === taskid)
+  }
 
 
-  // Compute Not Sectioned Tasks
+  // Use All Sections &
+  const AllSectionList = computed(() => TaskStore.value.AllSectionList)
+  // Set Section 
+  const SetSectionList = (section = {}) => {
+    TaskStore.value.AllSectionList = section
+  }
+  // Find Sections From List
+  const FindSectionInList = (sectionid) => {
+    return TaskStore.value.AllSectionList.filter(sectionObj => sectionObj._id === sectionid)
+  }
+
+
+  // Compute Sectioned Tasks & Not Sectioned Tasks
   const NotSectionedTask = computed(() => {
     let task;
     if (TaskStore.value.ShowCompletedTask) {
@@ -59,16 +73,16 @@ export const useTaskStore = () => {
     } else {
       task = TaskStore.value.AllTaskList.filter(task => task.sectionid === '0' || task.sectionid === 0).filter(task => task.completed !== true)
     }
+    const remain = TaskStore.value.AllTaskList.filter(task => (task.sectionid === '0' || task.sectionid === 0) && task.completed !== true).length
+    const total = TaskStore.value.AllTaskList.filter(task => (task.sectionid === '0' || task.sectionid === 0)).length
 
     return {
       _id: '0',
       task,
-      remain: TaskStore.value.AllTaskList.filter(task => (task.sectionid === '0' || task.sectionid === 0) && task.completed !== true).length,
-      total: TaskStore.value.AllTaskList.filter(task => (task.sectionid === '0' || task.sectionid === 0)).length,
+      remain,
+      total,
     }
   })
-
-  // Compute Sectioned Tasks
   const SectionedTask = computed(() => {
     return TaskStore.value.AllSectionList.map(section => {
 
@@ -88,11 +102,10 @@ export const useTaskStore = () => {
     })
   })
 
-  // Computed All Task Count
-  const AllTaskCount = computed(() => {
-    return TaskStore.value.AllTaskList.length
-  })
 
+
+  // Section Expanded List 
+  const AllSectionExpandList = computed(() => TaskStore.value.AllSectionExpandList)
   // Set Expand Section
   const SetExpandSection = (sectionid) => {
     const isFound = TaskStore.value.AllSectionExpandList.find(section => section._id === sectionid)
@@ -114,23 +127,18 @@ export const useTaskStore = () => {
     }
   }
 
-  const AllSectionExpandList = computed(() => TaskStore.value.AllSectionExpandList)
 
-
-  // 
+  // Completed Task
   const showCompletedTask = computed(() => TaskStore.value.ShowCompletedTask)
-  const setShowCompletedTask = () => {
-    TaskStore.value.ShowCompletedTask = true
-  }
-  const setHideCompletedTask = () => {
-    TaskStore.value.ShowCompletedTask = false
-  }
-  const setToggleCompletedTask = () => {
+  // Toggle Completed Task
+  const toggleCompletedTask = () => {
     TaskStore.value.ShowCompletedTask = !TaskStore.value.ShowCompletedTask
   }
 
+
   return {
     AllSectionExpandList,
+    FindTaskInList,
 
     AllTaskCount,
     NotSectionedTask,
@@ -138,19 +146,19 @@ export const useTaskStore = () => {
     // 
     AllTaskList,
     SetAllTaskList,
+    AddToAllTaskList,
     // 
     AllSectionList,
     SetSectionList,
+
     // 
     EditTaskInList,
     SetExpandSection,
 
-
     // 
     showCompletedTask,
-    setShowCompletedTask,
-    setHideCompletedTask,
-    setToggleCompletedTask
+    toggleCompletedTask,
+    FindSectionInList
   }
 }
 
@@ -167,14 +175,30 @@ export const useTaskOptionStore = () => {
   const disableOptionSheet = () => {
     TaskOptionStore.value.TaskOptionSheetOpen = false
   }
+  const enableOptionSheet = () => {
+    TaskOptionStore.value.TaskOptionSheetOpen = true
+  }
+  // 
+  const enableSyncing = (value) => {
+    TaskOptionStore.value.isSyncing = !0
+  }
 
-
-
+  // 
+  const isTaskExpanded = computed(() => TaskOptionStore.value.TaskExpanded)
+  const toggleTaskExpanded = () => {
+    TaskOptionStore.value.TaskExpanded = !TaskOptionStore.value.TaskExpanded
+  }
 
   return {
     // 
     isOptionSheetOpen,
     setOptionSheet,
-    disableOptionSheet
+    disableOptionSheet,
+    enableOptionSheet,
+    // 
+    enableSyncing,
+    // 
+    isTaskExpanded,
+    toggleTaskExpanded
   }
 }

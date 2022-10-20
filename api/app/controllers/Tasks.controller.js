@@ -2,53 +2,50 @@ import TasksModel from "../models/Tasks.model"
 
 
 export const getAllTasks = async (req, res) => {
-    let status, message, data;
     try {
+        let status, data;
         const allTodos = await TasksModel.find();
         if (allTodos) {
             status = 200;
-            message = "Recored Found!";
+            data = allTodos;
+        } else {
+            status = 404;
             data = allTodos;
         }
+        return res.status(status).json({ status, data });
     } catch (error) {
-        status = 404;
-        message = "Error : " + error;
-        data = null;
+        const status = 500;
+        return res.status(status).json({ status, error });
     }
-    return res.status(status).json({ status, message, data });
 }
 
 export const createTask = async (req, res) => {
     let status;
-    let message;
     let data = [];
 
-    if (req.body.NewTaskTitle) {
+    const { NewTaskTitle, NewTaskDescription, NewTaskDueDate, NewTaskCompleted, NewTaskSection, NewTaskPriority } = req.body
 
+    if (NewTaskTitle) {
         try {
-            const newTask = new TasksModel({
-                "title": req.body.NewTaskTitle,
-                "description": req.body.NewTaskDescription,
-                "duedate": req.body.NewTaskDueDate,
-                "completed": req.body.NewTaskCompleted,
-                "sectionid": req.body.NewTaskSection,
-                "tagsid": 'tags1231231'
-            });
-            const taskInserted = await newTask.save();
-            if (taskInserted) {
+            const isNewTaskInserted = await new TasksModel({
+                "title": NewTaskTitle,
+                "description": NewTaskDescription,
+                "duedate": NewTaskDueDate,
+                "completed": NewTaskCompleted,
+                "sectionid": NewTaskSection,
+                "priority": NewTaskPriority,
+            }).save();
+
+            if (isNewTaskInserted) {
                 status = 200;
-                message = "Recored Created!";
-                data = newTask;
+                data = isNewTaskInserted;
             }
+            return res.status(status).json({ status, data });
         } catch (error) {
-            status = 404;
-            message = 'Error : ' + error;
+            const status = 500;
+            return res.status(status).json({ status, error });
         }
-    } else {
-        status = 404;
-        message = "No title given";
     }
-    return res.status(status).json({ status, message, data });
 }
 
 export const updateTask = async (req, res) => {
@@ -59,7 +56,8 @@ export const updateTask = async (req, res) => {
             "description": req.body.TaskDescription,
             "duedate": req.body.TaskDueDate,
             "completed": req.body.TaskCompleted,
-            "sectionid": req.body.TaskSectionId
+            "sectionid": req.body.TaskSectionId,
+            "priority": req.body.TaskPriority,
         },
     ).then((TaskRecord) => {
         if (TaskRecord) {
@@ -83,9 +81,9 @@ export const updateTask = async (req, res) => {
     });
 }
 
-export const completeTask = (req, res) => {
+export const completeTask = async (req, res) => {
     let status, message, data;
-    TasksModel.findByIdAndUpdate(req.params.taskid,
+    await TasksModel.findByIdAndUpdate(req.params.taskid,
         {
             completed: true
         },

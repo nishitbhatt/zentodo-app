@@ -1,11 +1,12 @@
 <script setup>
 import { usePostFetch } from "~/utils/Fetch";
 import AppProgress from "~/components/AppProgress.vue";
-import { useAppLoading } from "~/store";
+import { useAppLoading, useTaskOptionStore } from "~/store";
 </script>
 
 <script>
 
+const { setOptionSheet } = useTaskOptionStore()
 const { inProgress } = useAppLoading()
 
 export default {
@@ -17,6 +18,7 @@ export default {
     showError: false
   }),
   mounted() {
+    setOptionSheet(false)
     localStorage.removeItem('TodoApp.User')
   },
   methods: {

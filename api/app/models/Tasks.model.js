@@ -6,6 +6,7 @@ const TasksSchema = new mongoose.Schema({
     duedate: String,
     sectionid: String,
     completed: Boolean,
+    priority: Number
 });
 
 

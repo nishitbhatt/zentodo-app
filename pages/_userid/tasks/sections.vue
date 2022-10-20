@@ -8,6 +8,7 @@ const { setOptionSheet } = useTaskOptionStore()
 const { AllSectionList } = useTaskStore()
 export default {
   name: "SectionsPage",
+  layout: "default",
   data: () => ({
     AllSectionList,
     SectionDialogOpen: false,
@@ -71,7 +72,7 @@ export default {
     <!-- Header -->
     <v-toolbar elevation="0" class="transparent">
 
-      <v-btn icon @click="backToTask" class="mr-1">
+      <v-btn icon class="mr-1" @click="backToTask">
         <v-icon large>mdi-chevron-left</v-icon>
       </v-btn>
 
@@ -88,17 +89,16 @@ export default {
 
     <!-- Section List -->
     <v-slide-y-transition group class="py-0" flat tag="v-list">
-      <!-- <transition-group> -->
       <template v-for="(section, index) in AllSectionList">
         <v-divider v-if="index !== 0" :key="`${index}-divider`" />
-        <v-list-item v-if="true" :key="`Section${section._id}`"
+        <v-list-item 
+          v-if="true" :key="`Section${section._id}`"
           @click="handleEditSectionDialogOpen(section._id, section.name)">
           <v-list-item-content>
             <v-list-item-title v-text="section.name" />
           </v-list-item-content>
         </v-list-item>
       </template>
-      <!-- </transition-group> -->
     </v-slide-y-transition>
     <!-- Add Section Button -->
     <v-divider />
@@ -117,7 +117,8 @@ export default {
     <v-dialog v-model="SectionDialogOpen" scrollable>
       <v-card>
         <v-card-text class="px-1 py-2">
-          <v-textarea v-model="NewSectionName" placeholder="Enter section name" hide-details="auto" rows="2" flat solo
+          <v-textarea 
+            v-model="NewSectionName" placeholder="Enter section name" hide-details="auto" rows="2" flat solo
             tile section-title-fld autofocus auto-grow></v-textarea>
         </v-card-text>
         <v-card-actions>

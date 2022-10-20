@@ -1,22 +1,17 @@
 import { reactive, unref } from "vue"
-import { useAppLoading } from "~/store"
 
 export const useAsyncFetch = async (url, options = {}) => {
-    const { showProgress, hideProgress } = useAppLoading()
     const fetchState = reactive({
         response: null,
         error: null,
     })
     try {
-        showProgress()
         const resp = await fetch(url, options)
         const json = await resp.json()
         fetchState.response = json
-        hideProgress()
 
     } catch (err) {
         fetchState.error = err
-        hideProgress()
     }
     return unref(fetchState)
 }

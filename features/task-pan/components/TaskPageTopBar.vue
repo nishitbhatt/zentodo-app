@@ -1,4 +1,5 @@
 <script setup>
+// import TaskSyncDataIcon from './TaskSyncDataIcon.vue'
 import { useTaskStore, useTaskOptionStore } from '~/store'
 </script>
 
@@ -7,7 +8,9 @@ const { AllTaskCount } = useTaskStore()
 const { setOptionSheet } = useTaskOptionStore()
 </script>
 <template>
-  <v-app-bar color="white" elevation="0" v-if="AllTaskCount" absolute hide-on-scroll scroll-target="#main-task-content" scroll-threshold="10">
+  <v-app-bar 
+    v-if="AllTaskCount" color="white" absolute elevation="0" hide-on-scroll scroll-target="#main-task-content"
+    scroll-threshold="30">
     <v-app-bar-nav-icon></v-app-bar-nav-icon>
     <!-- <v-icon class="mr-0 mt-0">mdi-checkbox-multiple-marked-circle-outline mdi-36px</v-icon> -->
     <!-- <div class="d-flex text-center mt-1 ml-n2">
@@ -23,9 +26,7 @@ const { setOptionSheet } = useTaskOptionStore()
 
     <v-spacer></v-spacer>
 
-    <!-- <v-btn icon to="tasks/create">
-      <v-icon>mdi-checkbox-marked-circle-plus-outline</v-icon>
-    </v-btn> -->
+    <!-- <TaskSyncDataIcon /> -->
 
     <v-btn icon @click="setOptionSheet(true)">
       <v-icon>mdi-dots-vertical</v-icon>

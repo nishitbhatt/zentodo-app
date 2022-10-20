@@ -7,17 +7,17 @@ export default {
   data: () => ({
     slideUp: false
   }),
-  mounted () {
+  mounted() {
     document.querySelector('.app-tooltip')?.remove()
     setTimeout(() => {
       this.slideUp = true
-    }, 10)
+    }, 50)
     setTimeout(() => {
       this.slideUp = false
       setTimeout(() => {
         this.$el.remove()
       }, 50)
-    }, 3000)
+    }, 5000)
   }
 }
 
@@ -30,17 +30,75 @@ export default {
 </template>
 
 <style scoped>
-  div.slideUp {
-    bottom: 50px;
+div.slideUp {
+  visibility: visible;
+  -webkit-animation: fadein 0.7s, fadeout 0.5s 6s;
+  animation: fadein 0.7s, fadeout 0.5s 6s;
+}
+
+div {
+  font-family: "Roboto";
+  left: 50%;
+  transform: translateX(-50%);
+  visibility: hidden;
+  width: auto;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  position: fixed;
+  z-index: 1;
+  bottom: 70px;
+  font-size: 14px;
+  word-spacing: 2px;
+  border-radius: 5px;
+}
+
+
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
   }
 
-  div {
-    font-family: Roboto;
-    position: fixed;
-    bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: all .1s ease-in-out;
-    z-index: 1111;
+  to {
+    bottom: 70px;
+    opacity: 1;
   }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 70px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 70px;
+    opacity: 1;
+  }
+
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 70px;
+    opacity: 1;
+  }
+
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
 </style>

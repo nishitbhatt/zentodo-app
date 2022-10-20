@@ -5,13 +5,17 @@ import { TaskOptionStore, useTaskStore, useTaskOptionStore } from '~/store';
 </script>
 
 <script>
-const { showCompletedTask, setToggleCompletedTask } = useTaskStore()
-const { disableOptionSheet } = useTaskOptionStore()
+const { showCompletedTask, toggleCompletedTask } = useTaskStore()
+const { disableOptionSheet, isTaskExpanded, toggleTaskExpanded } = useTaskOptionStore()
 export default {
     name: "TaskOptionSheet",
     methods: {
         handleToggleCompletedTask() {
-            setToggleCompletedTask()
+            toggleCompletedTask()
+            disableOptionSheet()
+        },
+        handleToggleExpandTask(){
+            toggleTaskExpanded()
             disableOptionSheet()
         }
     }
@@ -32,6 +36,15 @@ export default {
                         </v-list-item-icon>
                         <v-list-item-content>
                             <v-list-item-title> {{showCompletedTask ? 'Hide' : 'Show'}} Completed</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item btn @click="handleToggleExpandTask">
+                        <v-list-item-icon>
+                            <v-icon v-if="!isTaskExpanded">mdi-arrow-expand-vertical</v-icon>
+                            <v-icon v-else>mdi-arrow-collapse-vertical</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title> {{!isTaskExpanded ? 'Expand' : 'Collapse'}} Task</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                 </v-list-item-group>

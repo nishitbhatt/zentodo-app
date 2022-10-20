@@ -1,3 +1,8 @@
+<script>
+export default {
+  name: "DefaultLayout",
+}
+</script>
 <template>
   <v-app>
     <v-main>
@@ -6,11 +11,6 @@
   </v-app>
 </template>
 
-<script>
-export default {
-  name: "DefaultLayout",
-}
-</script>
 
 <style>
 #app {

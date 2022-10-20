@@ -9,8 +9,6 @@ import { useTaskStore } from '~/store'
 const { AllTaskCount, NotSectionedTask, SectionedTask } = useTaskStore()
 export default {
   name: "TaskRowNSection",
-  mounted() {
-  }
 }
 </script>
 <template>
@@ -22,7 +20,7 @@ export default {
       <template v-if="AllTaskCount">
         <!-- Not Sectioned Task -->
         <TaskListSheet name="Not Sectioned" :count="NotSectionedTask.remain" :id="'0'">
-          <v-slide-y-transition class="py-0" group tag="v-list">
+          <v-slide-y-transition group>
             <TaskRow v-for="task in NotSectionedTask.task" :key="`TaskRow${task._id}`" :task="task" />
           </v-slide-y-transition>
         </TaskListSheet>
@@ -31,12 +29,14 @@ export default {
         <template v-for="data in SectionedTask">
           <TaskListSheet v-if="data.total" :key="`TaskListSheet${data._id}`" :name="data.name" :count="data.remain"
             :id="data._id">
-            <v-slide-y-transition class="py-0" group tag="v-list">
+            <v-slide-y-transition group>
               <TaskRow v-for="task in data.task" :key="`TaskRow${task._id}`" :task="task" />
             </v-slide-y-transition>
           </TaskListSheet>
         </template>
 
+        <!-- Empty Div For Spacing -->
+        <div class="mb-16"></div>
       </template>
 
       <!-- No Task Screen -->

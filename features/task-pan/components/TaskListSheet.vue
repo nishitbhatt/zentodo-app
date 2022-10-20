@@ -41,7 +41,8 @@ export default {
 <template>
   <div>
     <!-- Section Button -->
-    <v-btn small block tile text raised plain depressed class="grey lighten-4 d-flex justify-start px-0"
+    <v-btn 
+      small block tile text plain depressed class="grey lighten-4 d-flex justify-start px-0"
       @click="handleExpandSection">
       <v-icon small>mdi-chevron-right {{ isExpanded && 'mdi-rotate-90'}}
       </v-icon>{{ name }}
