@@ -126,7 +126,8 @@ export default {
           <v-col cols="12" class="d-flex align-center">
 
             <!-- Complete Task Button -->
-            <v-btn :class="{ 'blue-grey lighten-4': isNewTaskCompleted }"
+            <v-btn 
+              :class="{ 'blue-grey lighten-4': isNewTaskCompleted }"
               :color="isNewTaskCompleted ? 'blue-grey' : 'blue-grey darken-5'" :outlined="!isNewTaskCompleted" large
               icon raised @click.stop="isNewTaskCompleted = !isNewTaskCompleted">
               <v-icon v-if="isNewTaskCompleted" color="blue-grey">mdi-check-bold</v-icon>
@@ -151,7 +152,8 @@ export default {
           <v-col cols="12">
 
             <!-- Task Title -->
-            <v-textarea v-model="NewTaskTitle" placeholder="What do you like to done?" flat solo tile rows="1"
+            <v-textarea 
+              v-model="NewTaskTitle" placeholder="What do you like to done?" flat solo tile rows="1"
               hide-details="auto" class="d-block pr-0 mx-n2 mb-1" background-color="transparent" block autofocus
               auto-grow task-title-fld>
             </v-textarea>
