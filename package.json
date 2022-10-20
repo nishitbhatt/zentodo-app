@@ -1,6 +1,7 @@
 {
   "name": "zentodo-app",
   "version": "1.0.0",
+  "engines": { "node": "17.3.0"},
   "private": true,
   "scripts": {
     "dev": "nuxt",
