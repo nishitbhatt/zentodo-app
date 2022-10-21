@@ -74,7 +74,6 @@ export default {
           <div :class="{ 'body-2': !0,'grey--text': task.completed}">{{task.description}}</div>
 
 
-
           <!-- <v-icon v-if="true" :key="'priority' + ind" small :color="TaskPriorityColor"
                 :class="{ 'mx-n4': ind !== 0 }">
                 mdi-exclamation </v-icon> -->
@@ -96,9 +95,9 @@ export default {
           </template> -->
         </div>
         <div v-if="task.duedate || task.priority"
-          :class="{ 'text-capitalize caption': !0, 'white':  !task.completed, 'grey lighten-5':  task.completed, 'justify-start pt-3': task.priority, 'justify-center': !task.priority  }"
+          :class="{ 'text-capitalize caption': !0, 'white':  !task.completed, 'grey lighten-5':  task.completed, 'justify-start pt-3': task.duedate, 'justify-center pt-0': !task.duedate || task.priority  }"
           task-info :white="!task.completed" :grey="task.completed">
-          <span :class="`${FormattedDueDate.color}--text`">
+          <span v-if="task.duedate" :class="`${FormattedDueDate.color}--text`">
             {{FormattedDueDate.date}}
           </span>
           <div v-if="task.priority" class="ml-n1">
