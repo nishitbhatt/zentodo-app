@@ -1,7 +1,9 @@
 {
   "name": "zentodo-app",
   "version": "1.0.0",
-  "engines": { "node": "17.3.0"},
+  "engines": {
+    "node": "17.3.0"
+  },
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -22,6 +24,7 @@
     "@nuxtjs/pwa": "^3.3.5",
     "body-parser": "^1.20.0",
     "core-js": "^3.19.3",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "mongoose": "^6.6.1",
